@@ -1,0 +1,46 @@
+import Array "mo:base/Array";
+import Nat8 "mo:base/Nat8";
+import Nat32 "mo:base/Nat32";
+
+module Utilities {
+    public func copy<T>(
+        n   : Nat, // Position to start writing.
+        dst : [var T], 
+        src : [T],
+    ) : Nat {
+        let l = dst.size();
+        for (i in src.keys()) {
+            if (l <= i) return l;
+            dst[n + i] := src[i];
+        };
+        src.size();
+    };
+
+    public func removeN<T>(
+        n  : Nat, // Number to remove.
+        xs : [T],
+    ) : [T] {
+        Array.tabulate<T>(
+            xs.size() - n,
+            func (i : Nat) : T {
+                xs[i + n];
+            },
+        );
+    };
+
+    public func takeN<T>(
+        n  : Nat, // Number to take.
+        xs : [T],
+    ) : [T] {
+        Array.tabulate<T>(
+            n,
+            func (i : Nat) : T {
+                xs[i];
+            },
+        );
+    };
+
+    public func nat8to32(n : Nat8) : Nat32 {
+        Nat32.fromNat(Nat8.toNat(n));
+    };
+};
