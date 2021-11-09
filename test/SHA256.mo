@@ -26,7 +26,7 @@ for (v in [
     ("abcdefghi", "19CC02F26DF43CC571BC9ED7B0C4D29224A3EC229529221725EF76D021C8326F"),
     ("abcdefghij", "72399361DA6A7754FEC986DCA5B7CBAF1C810A28DED4ABAF56B2106D06CB78B0"),
 ].vals()) {
-    assert(Hex.encode(SHA256.sum256(Blob.toArray(Text.encodeUtf8(v.0)))) == v.1);
+    assert(Hex.encode(SHA256.sum(Blob.toArray(Text.encodeUtf8(v.0)))) == v.1);
 };
 
 do {
