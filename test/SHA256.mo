@@ -2,8 +2,6 @@ import Blob "mo:base/Blob";
 import Hex "mo:encoding/Hex";
 import Text "mo:base/Text";
 
-import Debug "mo:base/Debug";
-
 import SHA256 "../src/SHA/SHA256";
 
 let sum256 = SHA256.sum(Blob.toArray(Text.encodeUtf8("hello world\n")));

@@ -1,4 +1,5 @@
 import Array "mo:base/Array";
+import Buffer "mo:base/Buffer";
 import Binary "mo:encoding/Binary";
 import Iter "mo:base/Iter";
 import Nat32 "mo:base/Nat32";
@@ -52,7 +53,15 @@ module {
         public func size() : Nat { hashSize; };
 
         public func sum(bs : [Nat8]) : [Nat8] {
-            Array.append(bs, checkSum());
+            let cs = checkSum();
+            let size = bs.size();
+            Array.tabulate<Nat8>(
+                size + cs.size(),
+                func (x : Nat) {
+                    if (x < size) return bs[x];
+                    cs[x - size];
+                }
+            );
         };
 
         public func checkSum() : [Nat8] {
@@ -71,12 +80,15 @@ module {
                 ));
             };
             write(Binary.BigEndian.fromNat64(n << 3));
-            var digest : [Nat8] = [];
+            let digest = Buffer.Buffer<Nat8>(32);
             label l for (i in h.keys()) {
                 if (i == 7 and hashSize == 28) { break l; };
-                digest := Array.append(digest, Binary.BigEndian.fromNat32(h[i]));
+                let n = Binary.BigEndian.fromNat32(h[i]);
+                for (v in n.vals()) {
+                    digest.add(v);
+                };
             };
-            digest;
+            digest.toArray();
         };
 
         public func write(bs : [Nat8]) : () {

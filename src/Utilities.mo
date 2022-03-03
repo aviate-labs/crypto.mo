@@ -9,8 +9,9 @@ module Utilities {
         src : [T],
     ) : Nat {
         let l = dst.size();
+        if (l < n) return 0;
         for (i in src.keys()) {
-            if (l <= i) return l;
+            if (l <= n + i) return l;
             dst[n + i] := src[i];
         };
         src.size();
