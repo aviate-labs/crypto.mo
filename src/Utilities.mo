@@ -11,7 +11,7 @@ module Utilities {
         let l = dst.size();
         if (l < n) return 0;
         for (i in src.keys()) {
-            if (l <= n + i) return l;
+            if (l <= n + i) return i;
             dst[n + i] := src[i];
         };
         src.size();
