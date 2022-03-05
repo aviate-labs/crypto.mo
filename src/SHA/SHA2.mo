@@ -26,12 +26,6 @@ module {
         0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
     ];
 
-    // Initial hash value, H(0).
-    private let H256 : [Nat32] = [
-        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c,
-        0x1f83d9ab, 0x5be0cd19,
-    ];
-
     public class SHA2(
         initialState : [Nat32],
         hashSize     : Nat,
@@ -66,20 +60,12 @@ module {
 
         public func checkSum() : [Nat8] {
             let n = len;
-            var tmp = Array.init<Nat8>(64, 0);
+            let r = Nat64.toNat(n) % 64;
+            var tmp = Array.init<Nat8>(if (r < 56) { 56 - r } else { 64 + 56 - r }, 0);
             tmp[0] := 0x80;
-            if (Nat64.toNat(len) % 64 < 56) {
-                write(Util.takeN<Nat8>(
-                    56 - Nat64.toNat(len) % 64,
-                    Array.freeze(tmp),
-                ));
-            } else {
-                write(Util.takeN<Nat8>(
-                    64 + 56 - Nat64.toNat(len) % 64, 
-                    Array.freeze(tmp),
-                ));
-            };
+            write(Array.freeze(tmp));
             write(Binary.BigEndian.fromNat64(n << 3));
+            assert(nx == 0);
             let digest = Buffer.Buffer<Nat8>(32);
             label l for (i in h.keys()) {
                 if (i == 7 and hashSize == 28) { break l; };
@@ -95,7 +81,7 @@ module {
             var p = bs;
             len +%= Nat64.fromNat(bs.size());
             if (0 < nx) {
-                let n = Util.copy<Nat8>(nx, x, p);
+                let n = Util.copy(nx, x, p);
                 nx += n;
                 if (nx == 64) {
                     block(Array.freeze(x));
@@ -104,12 +90,12 @@ module {
                 p := Util.removeN(n, p);
             };
             if (64 <= p.size()) {
-                let n = Nat64.toNat(Nat64.fromNat(p.size()) & (^63));
+                let n = Nat64.toNat(Nat64.fromNat(p.size()) &^ 63);
                 block(Util.takeN(n, p));
                 p := Util.removeN(n, p);
             };
             if (0 < p.size()) {
-                nx := Util.copy<Nat8>(0, x, p);
+                nx := Util.copy(0, x, p);
             };
         };
 
