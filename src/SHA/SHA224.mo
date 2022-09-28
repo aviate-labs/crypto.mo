@@ -11,7 +11,7 @@ module SHA224 {
 
     /// Returns the SHA224 checkum of the data.
     public func sum(bs : [Nat8]) : [Nat8] {
-        let h = New();
+        let h = SHA2.SHA2(H224, 28);
         h.write(bs);
         h.checkSum()
     };

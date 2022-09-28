@@ -3,8 +3,6 @@ module Hash {
         // Returns the block size of the hash.
         blockSize() : Nat;
         // Returns the checksum data.
-        checkSum() : [Nat8];
-        // Resets the hash to its initial state.
         reset() : ();
         // Returns the number of bytes that sum will return.
         size() : Nat;
