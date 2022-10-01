@@ -14,12 +14,12 @@
 
 ```motoko
 SHA256.sum(Blob.toArray(Text.encodeUtf8("hello world\n"));
-// "A948904F2F0F479B8F8197694B30184B0D2ED1C1CD2A1EC0FB85D299A192A447"
+// "a948904f2f0f479b8f8197694b30184b0d2ed1c1cd2a1ec0fb85d299a192a447"
 
 let h = SHA256.New();
 h.write(Blob.toArray(Text.encodeUtf8("hello world\n")));
 h.sum([]);
-// "A948904F2F0F479B8F8197694B30184B0D2ED1C1CD2A1EC0FB85D299A192A447"
+// "a948904f2f0f479b8f8197694b30184b0d2ed1c1cd2a1ec0fb85d299a192a447"
 ```
 
 ### HMAC
@@ -28,5 +28,5 @@ h.sum([]);
 let h = HMAC.New(SHA256.New, []);
 h.write(Blob.toArray(Text.encodeUtf8("hello world\n")));
 h.sum([]);
-// "D4452DBFE1FE25BF6C2FA79172DAE3D7E2950DE69F76E6C23188C49BFBA4372F"
+// "d4452dbfe1fe25bf6c2fa79172dae3d7e2950de69f76e6c23188c49bfba4372f"
 ```
