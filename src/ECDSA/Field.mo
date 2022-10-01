@@ -5,14 +5,19 @@ module {
     // Field ℤ/nℤ
     // NOTE: ℤ/nℤ is a field when nℤ is a maximal ideal (i.e., when n is prime).
     public class Field(n : Nat) {
+
+        public let m = n;
+
         // Int to a ℤ/nℤ Nat.
         public func fromInt(x : Int) : Nat {
             let y = Int.abs(x);
             if (0 <= x) return y % n;
             Int.abs(x + n * (y / n + 1));
         };
+
+        public func mod(x : Nat) : Nat = x % n;
         
-        public func add(x : Nat, y : Nat) : Nat = (x + y) % n;
+        public func add(x : Nat, y : Nat) : Nat = mod(x + y);
 
         public func sub(x : Nat, y : Nat) : Nat {
             if (x > y) return x - y;
@@ -20,7 +25,7 @@ module {
         };
 
         public func neg(x : Nat) : Int {
-            let y = x % n;
+            let y = mod(x);
             if (y == 0) return 0;
             y - n;
         };
@@ -39,9 +44,11 @@ module {
             fromInt(i);
         };
 
-        public func mult(x : Nat, y : Nat) : Nat = (x * y) % n;
+        public func mult(x : Nat, y : Nat) : Nat = mod(x * y);
 
-        public func div(x : Nat, y : Nat) : Nat = (x * inv_(y)) % n;
+        public func div(x : Nat, y : Nat) : Nat = mod(x * inv_(y));
+
+        public func dbl(x : Nat) : Nat = mult(x, x);
 
         // Modular exponentiation (~ binary exponentiation).
         public func exp(x : Nat, y : Nat) : Nat = switch (y) {
@@ -49,7 +56,7 @@ module {
             case (_) {
                 var r = 1;
                 var e = y;
-                var b = x % n;
+                var b = mod(x);
                 while (0 < e) {
                     if (e % 2 == 1) r := mult(r, b);
                     e := Prim.shiftRight(e, 1);
