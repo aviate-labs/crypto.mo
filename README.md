@@ -2,10 +2,11 @@
 
 ## Packages
 
-| Package Name | Description | Path |
-|--------------|-------------|------|
-| SHA  | SHA224 and SHA256 hash algorithms as defined in FIPS 180-4             | crypto/SHA/.. |
-| HMAC | Keyed-Hash Message Authentication Code (HMAC) as defined in FIPS 198-1 | crypto/HMAC |
+| Package Name | Description | Spec | Path |
+|--------------|-------------|------|------|
+| SHA  | SHA224 and SHA256 hash algorithms             | FIPS 180-4 | `crypto/SHA/..` |
+| AES  | Advanced Encryption Standard (AES)            | FIPS 197   | `crypto/AES`    |
+| HMAC | Keyed-Hash Message Authentication Code (HMAC) | FIPS 198-1 | `crypto/HMAC`   |
 
 ## Usage
 
