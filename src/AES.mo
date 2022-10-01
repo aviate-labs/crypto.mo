@@ -43,9 +43,9 @@ module {
             var t0 : Nat32 = 0; var t1 : Nat32 = 0; var t2 : Nat32 = 0; var t3 : Nat32 = 0;
             while (r < nr) {
                 t0 := enc[j  ] ^ te0[Nat8.toNat(Util.nat32to8(s0 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s1 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s2 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s3))];
-		        t1 := enc[j+1] ^ te0[Nat8.toNat(Util.nat32to8(s1 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s2 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s3 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s0))];
-		        t2 := enc[j+2] ^ te0[Nat8.toNat(Util.nat32to8(s2 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s3 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s0 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s1))];
-		        t3 := enc[j+3] ^ te0[Nat8.toNat(Util.nat32to8(s3 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s0 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s1 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s2))];
+                t1 := enc[j+1] ^ te0[Nat8.toNat(Util.nat32to8(s1 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s2 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s3 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s0))];
+                t2 := enc[j+2] ^ te0[Nat8.toNat(Util.nat32to8(s2 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s3 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s0 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s1))];
+                t3 := enc[j+3] ^ te0[Nat8.toNat(Util.nat32to8(s3 >> 24))] ^ te1[Nat8.toNat(Util.nat32to8(s0 >> 16))] ^ te2[Nat8.toNat(Util.nat32to8(s1 >> 8))] ^ te3[Nat8.toNat(Util.nat32to8(s2))];
                 s0 := t0; s1 := t1; s2 := t2; s3 := t3;
                 j += 4;
                 r += 1;
@@ -89,9 +89,9 @@ module {
             var t0 : Nat32 = 0; var t1 : Nat32 = 0; var t2 : Nat32 = 0; var t3 : Nat32 = 0;
             while (r < nr) {
                 t0 := dec[j  ] ^ td0[Nat8.toNat(Util.nat32to8(s0 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s3 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s2 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s1))];
-		        t1 := dec[j+1] ^ td0[Nat8.toNat(Util.nat32to8(s1 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s0 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s3 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s2))];
-		        t2 := dec[j+2] ^ td0[Nat8.toNat(Util.nat32to8(s2 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s1 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s0 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s3))];
-		        t3 := dec[j+3] ^ td0[Nat8.toNat(Util.nat32to8(s3 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s2 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s1 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s0))];
+                t1 := dec[j+1] ^ td0[Nat8.toNat(Util.nat32to8(s1 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s0 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s3 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s2))];
+                t2 := dec[j+2] ^ td0[Nat8.toNat(Util.nat32to8(s2 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s1 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s0 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s3))];
+                t3 := dec[j+3] ^ td0[Nat8.toNat(Util.nat32to8(s3 >> 24))] ^ td1[Nat8.toNat(Util.nat32to8(s2 >> 16))] ^ td2[Nat8.toNat(Util.nat32to8(s1 >> 8))] ^ td3[Nat8.toNat(Util.nat32to8(s0))];
                 s0 := t0; s1 := t1; s2 := t2; s3 := t3;
                 j += 4;
                 r += 1;
@@ -179,7 +179,7 @@ module {
 
     func rotw(x : Nat32) : Nat32 = x << 8 | x >> 24;
 
-    // FIPS-197 Figure 7. S-box substitution values in hexadecimal format.
+    // FIPS-197 Figure 7. S-box substitution values.
     let sbox0 : [Nat8] = [
         0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
         0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -199,7 +199,7 @@ module {
         0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
     ];
 
-    // FIPS-197 Figure 14.  Inverse S-box substitution values in hexadecimal format.
+    // FIPS-197 Figure 14. Inverse S-box substitution values.
     let sbox1 : [Nat8] = [
         0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
         0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,

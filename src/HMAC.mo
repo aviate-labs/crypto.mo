@@ -49,7 +49,7 @@ module HMAC {
 
         var i = 0;
         for (_ in hmac.ipad.vals()) {
-		    hmac.ipad[i] ^= 0x36;
+            hmac.ipad[i] ^= 0x36;
             i += 1;
         };
         var j = 0;
