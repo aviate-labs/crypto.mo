@@ -1,6 +1,6 @@
 import Prim "mo:⛔";
-import Array "mo:base/Array";
-import Iter "mo:base/Iter";
+import Array "mo:base-0.7.3/Array";
+import Iter "mo:base-0.7.3/Iter";
 
 import Util "../src/Utilities";
 

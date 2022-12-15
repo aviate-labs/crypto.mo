@@ -1,6 +1,6 @@
-import Array "mo:base/Array";
-import Nat8 "mo:base/Nat8";
-import Nat32 "mo:base/Nat32";
+import Array "mo:base-0.7.3/Array";
+import Nat8 "mo:base-0.7.3/Nat8";
+import Nat32 "mo:base-0.7.3/Nat32";
 
 module Utilities {
     public func copy<T>(

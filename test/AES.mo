@@ -1,6 +1,6 @@
 import AES "../src/AES";
 
-import D "mo:base/Debug";
+import D "mo:base-0.7.3/Debug";
 
 for ((key, i, o) in ([
     ( // Appendix B.

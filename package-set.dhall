@@ -1,2 +1,17 @@
-let upstream = https://github.com/aviate-labs/package-set/releases/download/v0.1.7/package-set.dhall sha256:433429e918c292301ae0a7fa2341d463fea2d586c3f9d03209d68ca52e987aa8
-in  upstream
+let base = https://github.com/internet-computer/base-package-set/releases/download/moc-0.7.4/package-set.dhall sha256:3a20693fc597b96a8c7cf8645fda7a3534d13e5fbda28c00d01f0b7641efe494
+let Package = { name : Text, version : Text, repo : Text, dependencies : List Text }
+
+let additions = [
+  { name = "array"
+  , version = "v0.2.1"
+  , repo = "https://github.com/aviate-labs/array.mo"
+  , dependencies = [ "base-0.7.3" ] : List Text
+  },
+  { name = "encoding"
+  , version = "v0.4.1"
+  , repo = "https://github.com/aviate-labs/encoding.mo"
+  , dependencies = [ "base-0.7.3", "array" ]
+  }
+] : List Package
+
+in  base # additions

@@ -1,8 +1,8 @@
-import Array "mo:base/Array";
-import Blob "mo:base/Blob";
+import Array "mo:base-0.7.3/Array";
+import Blob "mo:base-0.7.3/Blob";
 import Hex "mo:encoding/Hex";
 
-import Debug "mo:base/Debug";
+import Debug "mo:base-0.7.3/Debug";
 
 import SHA256 "../src/SHA/SHA256";
 

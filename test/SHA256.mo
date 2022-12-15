@@ -1,6 +1,6 @@
-import Blob "mo:base/Blob";
+import Blob "mo:base-0.7.3/Blob";
 import Hex "mo:encoding/Hex";
-import Text "mo:base/Text";
+import Text "mo:base-0.7.3/Text";
 
 import SHA256 "../src/SHA/SHA256";
 

@@ -1,9 +1,9 @@
-import Array "mo:base/Array";
-import Buffer "mo:base/Buffer";
+import Array "mo:base-0.7.3/Array";
+import Buffer "mo:base-0.7.3/Buffer";
 import Binary "mo:encoding/Binary";
-import Iter "mo:base/Iter";
-import Nat32 "mo:base/Nat32";
-import Nat64 "mo:base/Nat64";
+import Iter "mo:base-0.7.3/Iter";
+import Nat32 "mo:base-0.7.3/Nat32";
+import Nat64 "mo:base-0.7.3/Nat64";
 
 import Hash "../Hash";
 import Util "../Utilities";
@@ -74,7 +74,7 @@ module {
                     digest.add(v);
                 };
             };
-            digest.toArray();
+            Buffer.toArray(digest);
         };
 
         public func write(bs : [Nat8]) : () {
