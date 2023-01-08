@@ -80,6 +80,7 @@ module {
         public func write(bs : [Nat8]) : () {
             var p = bs;
             len +%= Nat64.fromNat(bs.size());
+            var start = 0;
             if (0 < nx) {
                 let n = Util.copy(nx, x, p);
                 nx += n;
@@ -87,15 +88,17 @@ module {
                     block(Array.freeze(x));
                     nx := 0;
                 };
-                p := Util.removeN(n, p);
+                start += n;
+                //p := Util.removeN(n, p);
             };
-            if (64 <= p.size()) {
-                let n = Nat64.toNat(Nat64.fromNat(p.size()) &^ 63);
-                block(Util.takeN(n, p));
-                p := Util.removeN(n, p);
+            if (64 <= (p.size() - start)) {
+                let n = Nat64.toNat(Nat64.fromNat(p.size() - start) &^ 63);
+                block_offset(p, start, n);
+                start +=n;
+                //p := Util.removeN(n, p);
             };
-            if (0 < p.size()) {
-                nx := Util.copy(0, x, p);
+            if (0 < (p.size() - start)) {
+                nx := Util.copy_offset(0, start, x, p);
             };
         };
 
@@ -107,6 +110,45 @@ module {
 
             var start = 0;
             var len = bs.size();
+            while (len >= 64) {
+                for (i in Iter.range(0, 15)) {
+                    let j = i * 4;
+                    w[i] := Util.nat8to32(bs[start + j + 0]) << 24  | Util.nat8to32(bs[start + j + 1]) << 16
+                          | Util.nat8to32(bs[start + j + 2]) << 8 | Util.nat8to32(bs[start + j + 3]);
+                };
+                for (i in Iter.range(16, 63)) {
+                    let v1 = w[i-2];
+                    let t1 = (Nat32.bitrotRight(v1, 17) ^ Nat32.bitrotRight(v1, 19)) ^ (v1 >> 10);
+                    let v2 = w[i-15];
+                    let t2 = (Nat32.bitrotRight(v2, 7) ^ Nat32.bitrotRight(v2, 18)) ^ (v2 >> 3);
+                    w[i] := t1 +% w[i-7] +% t2 +% w[i - 16];
+                };
+                var a = h0; var b = h1; var c = h2; var d = h3;
+                var e = h4; var f = h5; var g = h6; var h = h7;
+                for (i in Iter.range(0, 63)) {
+                    let t1 = h +% (Nat32.bitrotRight(e, 6) ^ Nat32.bitrotRight(e, 11) ^ Nat32.bitrotRight(e, 25)) +% ((e & f) ^ (^e & g)) +% K[i] +% w[i];
+                    let t2 = (Nat32.bitrotRight(a, 2) ^ Nat32.bitrotRight(a, 13) ^ Nat32.bitrotRight(a, 22)) +% ((a & b) ^ (a & c) ^ (b & c));
+                    h := g; g := f; f := e; e := d +% t1;
+                    d := c; c := b; b := a; a := t1 +% t2;
+                };
+                h0 +%= a; h1 +%= b; h2 +%= c; h3 +%= d;
+                h4 +%= e; h5 +%= f; h6 +%= g; h7 +%= h;
+                start += 64;
+                len -= 64;
+            };
+            h[0] := h0; h[1] := h1; h[2] := h2; h[3] := h3;
+            h[4] := h4; h[5] := h5; h[6] := h6; h[7] := h7;
+        };
+
+
+        private func block_offset(bs : [Nat8], _start: Nat, _length: Nat) {
+            var w : [var Nat32] = Array.init<Nat32>(64, 0);
+
+            var h0 = h[0]; var h1 = h[1]; var h2 = h[2]; var h3 = h[3];
+            var h4 = h[4]; var h5 = h[5]; var h6 = h[6]; var h7 = h[7];
+
+            var start = _start;
+            var len = _length;
             while (len >= 64) {
                 for (i in Iter.range(0, 15)) {
                     let j = i * 4;
