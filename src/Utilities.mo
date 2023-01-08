@@ -59,6 +59,6 @@ module Utilities {
     };
 
     public func nat8to32(n : Nat8) : Nat32 {
-        Nat32.fromNat(Nat8.toNat(n));
+        Nat32.fromIntWrap(Nat8.toNat(n));
     };
 };

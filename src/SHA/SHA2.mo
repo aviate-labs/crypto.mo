@@ -100,15 +100,18 @@ module {
         };
 
         private func block(bs : [Nat8]) {
-            var p = bs;
             var w : [var Nat32] = Array.init<Nat32>(64, 0);
+
             var h0 = h[0]; var h1 = h[1]; var h2 = h[2]; var h3 = h[3];
             var h4 = h[4]; var h5 = h[5]; var h6 = h[6]; var h7 = h[7];
-            while (64 <= p.size()) {
+
+            var start = 0;
+            var len = bs.size();
+            while (len >= 64) {
                 for (i in Iter.range(0, 15)) {
                     let j = i * 4;
-                    w[i] := Util.nat8to32(p[j]) << 24  | Util.nat8to32(p[j+1]) << 16
-                          | Util.nat8to32(p[j+2]) << 8 | Util.nat8to32(p[j+3]);
+                    w[i] := Util.nat8to32(bs[start + j + 0]) << 24  | Util.nat8to32(bs[start + j + 1]) << 16
+                          | Util.nat8to32(bs[start + j + 2]) << 8 | Util.nat8to32(bs[start + j + 3]);
                 };
                 for (i in Iter.range(16, 63)) {
                     let v1 = w[i-2];
@@ -127,7 +130,8 @@ module {
                 };
                 h0 +%= a; h1 +%= b; h2 +%= c; h3 +%= d;
                 h4 +%= e; h5 +%= f; h6 +%= g; h7 +%= h;
-                p := Util.removeN(64, p);
+                start += 64;
+                len -= 64;
             };
             h[0] := h0; h[1] := h1; h[2] := h2; h[3] := h3;
             h[4] := h4; h[5] := h5; h[6] := h6; h[7] := h7;
