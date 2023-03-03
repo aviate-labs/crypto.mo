@@ -36,9 +36,10 @@ module {
         15, 23, 19, 13, 12, 2, 20, 14, 22, 9,  6,  1
     ];
 
-    public class SHA3(
-      initialState : [Nat64], // unused for now
-      hashSize     : Nat,
+    public class Keccak(
+      initialState   : [Nat64], // unused for now
+      hashSize       : Nat,
+      delimitedSuffix: Nat8,
     ) : Hash.Hash = {
         // Keccak l-parameter selects "bus size". For SHA3, l = 6 and
         // this is the only value supported at this time.
@@ -54,7 +55,6 @@ module {
         private let cap: Nat = hashSize * 2;
 
         // Block size in bytes
-        // No operator warning for Nat arithmetic?
         assert(bsize > cap+8);
         private let rsize: Nat = (bsize - cap)/8;
 
@@ -128,7 +128,7 @@ module {
 
         // Function to finalize hashing
         public func checkSum() : [Nat8] {
-            state[pt/8] ^= 0x06 : Nat64 << Nat64.fromNat((pt%8)*8);
+            state[pt/8] ^= Nat64.fromNat(Nat8.toNat(delimitedSuffix)) << Nat64.fromNat((pt%8)*8);
             state[(rsize-1:Nat)/8] ^= 0x80 : Nat64 << Nat64.fromNat(((rsize-1):Nat%8)*8);
 
             //dump();
@@ -136,10 +136,14 @@ module {
 
             let md = Array.init<Nat8>(hashSize/8, 0);
 
-            for (i in Iter.range(0, hashSize/64-1)) {
-                let qbuf = unpack64(state[i]);
-                for (j in Iter.range(0, 7)) {
-                    md[i*8+j] := qbuf[j];
+            var i = 0;
+            label done for (q in state.vals()) {
+                for (b in unpack64(q).vals()) {
+                    if (i >= md.size()) {
+                        break done;
+                    };
+                    md[i] := b;
+                    i += 1;
                 };
             };
             return Array.freeze<Nat8>(md);

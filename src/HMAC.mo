@@ -21,6 +21,8 @@ module HMAC {
 
         public func size() : Nat { outer.size() };
 
+        public func checkSum() : [Nat8] { [0] };
+
         public func sum(bs : [Nat8]) : [Nat8] {
             let l = bs.size();
             let p = inner.sum(bs);
