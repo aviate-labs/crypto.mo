@@ -6,6 +6,9 @@ module Hash {
         reset() : ();
         // Returns the number of bytes that sum will return.
         size() : Nat;
+        // Return the hash.
+        // TODO: Should probably rename this
+        checkSum() : [Nat8];
         // Adds the current hash to the resulting slice.
         // The underlying hash is not modified.
         sum(bs : [Nat8]) : [Nat8];
